@@ -1,6 +1,6 @@
 <template>
     <div class="events-container">
-      <h3>Events List</h3>
+      <h3>Liste d'évennements</h3>
       <ul class="events-list">
         <li v-for="event in events" :key="event.id" :class="event.id === isActive ? 'active' : '' " @click="onSelect(event)">
           {{ event.title }}
