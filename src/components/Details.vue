@@ -3,7 +3,7 @@
       <div v-if="event">
         <form class="event-details" @submit.prevent="checkForm" method="post" >
           <h2 v-text="event.title"></h2>
-          <p>Crée le {{ event.creationDate }} par {{ event.author }}</p>
+          <p>Crée le {{ creationDate }} &nbsp; {{ creationTime }} par {{ event.createdBy }}</p>
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" v-model="event.title" name="title" id="title">
@@ -16,11 +16,11 @@
           <div class="datetime-container">
             <div class="form-group date">
               <label for="date">Date</label>
-              <input type="date" class="form-control" v-model="event.creationDate" name="date" id="date">
+              <input type="date" class="form-control" v-model="creationDate" name="date" id="date">
             </div>
             <div class="form-group time">
               <label for="time">Time</label>
-              <input type="time" class="form-control" v-model="event.creationDate" name="time" id="time">
+              <input type="time" class="form-control" v-model="creationTime" name="time" id="time">
             </div>
           </div>
           <div class="form-group">
@@ -46,7 +46,7 @@
             <div class="temoins-container">
               <div v-for="(temoin, index) in event.temoins" :key="index" class="temoin">
                  {{ temoin }}
-                <span>X</span>
+                <span @click.prevent="onDelete(index)">X</span>
               </div>
             </div>
           </div>
@@ -57,24 +57,43 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { employees } from '../data.js'
 
 export default {
   name: 'Detail',
+  data () {
+    return {
+      creationDate: null,
+      creationTime: null
+    }
+  },
+  created () {
+    this.formatDate()
+  },
+  updated () {
+    this.formatDate()
+  },
   props: ['event'],
   methods: {
+    onDelete (index) {
+      this.$emit('deleted', index)
+    },
     checkForm () {
       console.log('event', this.event)
     },
     getEmploye (index) {
       return employees.find(x => x.id === index)
+    },
+    formatDate () {
+      this.creationTime = moment(String(this.event.creationDate)).format('hh:mm:ss')
+      this.creationDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
     }
   }
 }
 </script>
 
 <style>
-
   .details-container {
     height: 100%;
     overflow-y: auto;
@@ -142,6 +161,7 @@ export default {
     border: 1px solid #93C5FD;
     border-radius: 10px;
     margin-bottom: 20px;
+    min-height: 60px;
   }
 
   .temoin {

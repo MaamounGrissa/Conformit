@@ -1,14 +1,14 @@
 <template>
   <div class="mycontainer">
     <div class="row">
-    <div class="col-4">
-      <Event :events ="events" @clicked="onSelect" />
+    <div class="col-md-4">
+      <Event :events="events" :isActive="isActive" @clicked="onSelect" />
     </div>
-    <div class="col-4">
-      <Detail :event ="event" />
+    <div class="col-md-4">
+      <Detail :event="event" @deleted="onDeletedTemoin"/>
     </div>
-    <div class="col-4">
-      <Comment :comments ="comments" @deleted="onDeleted" />
+    <div class="col-md-4">
+      <Comment :comments="comments" @deleted="onDeleted" />
     </div>
   </div>
   </div>
@@ -25,14 +25,19 @@ export default {
   components: {
     Event, Detail, Comment
   },
-  data: function () {
+  data () {
     return {
       event: null,
       events: [],
-      comments: []
+      comments: [],
+      isActive: false
     }
   },
-  mounted: function () {
+  created () {
+    this.onSelect(dataContext.events[0])
+    this.isActive = dataContext.events[0].id
+  },
+  mounted () {
     this.events = dataContext.events
   },
   props: {
@@ -41,10 +46,14 @@ export default {
   methods: {
     onSelect (event) {
       this.event = event
+      this.isActive = this.event.id
       this.comments = dataContext.GetEventComments(event.id)
     },
     onDeleted (index) {
       this.comments = this.comments.filter((item, i) => i !== index)
+    },
+    onDeletedTemoin (index) {
+      this.event.temoins = this.event.temoins.filter((item, i) => i !== index)
     }
   }
 }
@@ -57,25 +66,22 @@ export default {
     height: 100vh;
     background: #E5E7EB;
     overflow: hidden;
-    padding: 5%
+    padding: 5%;
   }
 
-  .row, .col-4 {
-    height: 100%
+  .row, .col-md-4 {
+    height: 100%;
   }
 
-  h3 {
-    margin: 40px 0 0;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
+  @media(max-width: 767px) {
+    .mycontainer {
+      width: auto;
+      height: auto;
+    }
+
+    .row, .col-md-4 {
+      height: auto;
+    }
+
   }
 </style>

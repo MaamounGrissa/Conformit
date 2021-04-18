@@ -2,7 +2,7 @@
     <div class="events-container">
       <h3>Events List</h3>
       <ul class="events-list">
-        <li v-for="event in events" :key="event.id" v-on:click="onSelect(event)">
+        <li v-for="event in events" :key="event.id" :class="event.id === isActive ? 'active' : '' " @click="onSelect(event)">
           {{ event.title }}
         </li>
       </ul>
@@ -11,11 +11,12 @@
 
 <script>
 import * as data from '../data.js'
+
 export default {
   name: 'EventsComponent',
-  props: ['events'],
+  props: ['events', 'isActive'],
   methods: {
-    onSelect: function (event) {
+    onSelect (event) {
       this.$emit('clicked', event)
     }
   }
@@ -57,6 +58,10 @@ export default {
     border-radius: 10px;
     font-weight: 500;
     cursor: pointer;
+  }
+
+  .events-list li.active {
+    background: #fff;
   }
 
   .events-list li:hover {
