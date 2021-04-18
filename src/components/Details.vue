@@ -87,7 +87,7 @@ export default {
       return employees.find(x => x.id === index)
     },
     formatDate () {
-      this.creationTime = moment(String(this.event.creationDate)).format('hh:mm:ss')
+      this.creationTime = moment(String(this.event.creationDate)).format('hh:mm')
       this.creationDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
     }
   }
