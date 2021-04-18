@@ -32,8 +32,8 @@ export default {
     background: rgb(78,169,228);
     background: linear-gradient(90deg,
                 rgba(78,169,228,1) 0%,
-                rgba(102,193,236,0.7959558823529411) 88%,
-                rgba(151,205,215,1) 100%);
+                rgba(102,193,236,0.7959558823529411) 100%,
+                rgba(96, 158, 230, 0.555) 100%);
     padding: 30px 20px;
     overflow-y: auto;
   }

@@ -3,7 +3,7 @@
       <div v-if="event">
         <form class="event-details" @submit="checkForm" method="post" >
           <h2 v-text="event.title"></h2>
-          <p>Crée le {{ myDate }} {{ myTime }} par {{ event.createdBy }}</p>
+          <p>Crée le {{ event.creationDate }} par {{ event.createdBy }}</p>
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" v-model="event.title" name="title" id="title">
@@ -16,11 +16,11 @@
           <div class="datetime-container">
             <div class="form-group date">
               <label for="date">Date</label>
-              <input type="date" class="form-control" v-model="myDate" name="date" id="date">
+              <input type="date" class="form-control" v-model="myDate" name="date" id="date" readonly>
             </div>
             <div class="form-group time">
               <label for="time">Time</label>
-              <input type="time" class="form-control" v-model="myTime" name="time" id="time">
+              <input type="time" class="form-control" v-model="myTime" name="time" id="time" readonly>
             </div>
           </div>
           <div class="form-group">
@@ -33,11 +33,9 @@
           </div>
           <div class="form-group">
             <label for="employe">Employé Impliqué</label>
-            <select class="form-control" name="employe" id="employe">
-                  <option value="Emp" selected>
-                 {{ getEmploye (event.involvedEmployeeId).firstname }} &nbsp;
-                 {{ getEmploye (event.involvedEmployeeId).lastname }} &nbsp;
-                 ( {{ getEmploye (event.involvedEmployeeId).id }} )
+            <select class="form-control" v-model="event.involvedEmployeeId" name="employe" id="employe">
+                  <option v-for="emp in this.emps" :key="emp.id" :value="emp.id">
+                    {{ emp.firstname }} &nbsp; {{ emp.lastname }} &nbsp; ({{ emp.id }})
                   </option>
             </select>
           </div>
@@ -62,19 +60,21 @@ import { employees } from '../data.js'
 
 export default {
   name: 'Detail',
+  props: ['event'],
   data () {
     return {
       myDate: null,
-      myTime: null
+      myTime: null,
+      emps: null
     }
   },
   created () {
     this.formatDate()
+    this.emps = employees
   },
   updated () {
     this.formatDate()
   },
-  props: ['event'],
   methods: {
     onDelete (index) {
       this.$emit('deleted', index)
@@ -89,10 +89,6 @@ export default {
     formatDate () {
       this.myTime = moment(String(this.event.creationDate)).format('HH:mm')
       this.myDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
-    },
-    changeDate () {
-      this.event.creationDate = this.myDate + 'T' + this.myTime + 'Z'
-      this.formatDate()
     }
   }
 }
@@ -202,6 +198,10 @@ export default {
                 rgba(151,205,215,1) 100%);
     border: none;
     border-radius: 10px;
+  }
+
+  .form-control[readonly] {
+    background-color: #fff !important;
   }
 
   @media(max-width: 767px) {
