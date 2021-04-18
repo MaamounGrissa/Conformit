@@ -11,7 +11,8 @@
             </div>
             <div class="comment-details">
                 <h5>{{item.author}}</h5>
-                <p>{{item.content}}</p>
+                <textarea class="comment-input" ref="comment" v-model="item.content">
+                </textarea>
             </div>
             <div class="actions">
               <div class="delete" @click="onDelete(index)">
@@ -37,9 +38,12 @@ export default {
   props: ['comments'],
   methods: {
     onDelete: function (index) {
+      // Appel du fonction onDeletedComment (in Parent Component)
       this.$emit('deleted', index)
     },
-    onEdit: function (id) {
+    onEdit: function (index) {
+      // Set Focus au commentaire à modifier
+      this.$refs.comment[index].focus()
       console.log('edited')
     }
   }
@@ -73,6 +77,7 @@ export default {
   padding: 10px 20px 10px 10px;
   position: relative;
   font-size: 14px;
+  height: 90px;
 }
 
 .comment {
@@ -96,6 +101,10 @@ export default {
   color: #fff;
 }
 
+.comment-details {
+  width: 80%;
+}
+
 .comment-details h5 {
   font-size: 15px;
   font-weight: bold;
@@ -108,6 +117,18 @@ export default {
   margin: 0;
 }
 
+.comment-input {
+  width: 85%;
+  background: transparent;
+  border: none;
+  resize: none;
+  padding: 1px;
+}
+
+.comment-input:focus {
+  outline: 0;
+  border: 2px dotted #93C5FD;
+}
 .actions {
   height: 100%;
   position: absolute;

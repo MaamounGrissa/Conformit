@@ -17,6 +17,7 @@ export default {
   props: ['events', 'isActive'],
   methods: {
     onSelect (event) {
+      // Appel du fonction onSelect (in the parent component)
       this.$emit('clicked', event)
     }
   }

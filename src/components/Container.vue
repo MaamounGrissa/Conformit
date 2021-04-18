@@ -8,7 +8,7 @@
       <Detail :event="event" @deleted="onDeletedTemoin"/>
     </div>
     <div class="col-md-4">
-      <Comment :comments="comments" @deleted="onDeleted" />
+      <Comment :comments="comments" @deleted="onDeletedComment" />
     </div>
   </div>
   </div>
@@ -34,7 +34,9 @@ export default {
     }
   },
   created () {
+    // Sélection du l'Event 0  ( Par Défaut )
     this.onSelect(dataContext.events[0])
+    // Export l'id de l'event sélectionné
     this.isActive = dataContext.events[0].id
   },
   mounted () {
@@ -45,22 +47,24 @@ export default {
   },
   methods: {
     onSelect (event) {
+      // Select Event Function
       this.event = event
       this.isActive = this.event.id
       this.comments = dataContext.GetEventComments(event.id)
     },
-    onDeleted (index) {
+    onDeletedComment (index) {
+      // Delete Comment
       this.comments = this.comments.filter((item, i) => i !== index)
     },
     onDeletedTemoin (index) {
+      // Delete Temoin
       this.event.temoins = this.event.temoins.filter((item, i) => i !== index)
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped>
   .mycontainer {
     width: 100vw;
     height: 100vh;

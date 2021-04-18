@@ -1,7 +1,10 @@
+/**************************************************************/
+/****************** EVENT DETAILS COMPONENT *******************/
+/**************************************************************/
 <template>
     <div class="details-container">
       <div v-if="event">
-        <form class="event-details" @submit="checkForm" method="post" >
+        <form class="event-details" @submit.prevent="checkForm" method="post" >
           <h2 v-text="event.title"></h2>
           <p>Crée le {{ event.creationDate }} par {{ event.createdBy }}</p>
           <div class="form-group">
@@ -16,11 +19,11 @@
           <div class="datetime-container">
             <div class="form-group date">
               <label for="date">Date</label>
-              <input type="date" class="form-control" v-model="myDate" name="date" id="date" readonly>
+              <input type="date" class="form-control" v-model="myDate" name="date" id="date">
             </div>
             <div class="form-group time">
               <label for="time">Time</label>
-              <input type="time" class="form-control" v-model="myTime" name="time" id="time" readonly>
+              <input type="time" class="form-control" v-model="myTime" name="time" id="time">
             </div>
           </div>
           <div class="form-group">
@@ -39,7 +42,7 @@
                   </option>
             </select>
           </div>
-          <div>
+          <div class="form-group">
             <label for="temoins">Témoins</label>
             <div class="temoins-container">
               <div v-for="(temoin, index) in event.temoins" :key="index" class="temoin">
@@ -69,24 +72,29 @@ export default {
     }
   },
   created () {
+    // Format Date à la création du component
     this.formatDate()
     this.emps = employees
   },
   updated () {
+    // Format Date à l'update du component
     this.formatDate()
   },
   methods: {
     onDelete (index) {
+      // Supprimer les témoins
       this.$emit('deleted', index)
     },
     checkForm (e) {
-      e.preventDefault()
+      // Submit Form
       console.log('event', this.event)
     },
     getEmploye (index) {
+      // l'employé impliqué
       return employees.find(x => x.id === index)
     },
     formatDate () {
+      // Format Date Function
       this.myTime = moment(String(this.event.creationDate)).format('HH:mm')
       this.myDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
     }
@@ -127,6 +135,7 @@ export default {
   .form-group label {
     font-size: 14px;
     margin-bottom: 3px;
+    margin-left: 4px;
   }
 
   .form-group input, .form-group select {
