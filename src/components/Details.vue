@@ -1,7 +1,7 @@
 <template>
     <div class="details-container">
       <div v-if="event">
-        <form class="event-details" @submit.prevent="checkForm" method="post" >
+        <form class="event-details" @submit="checkForm" method="post" >
           <h2 v-text="event.title"></h2>
           <p>Crée le {{ creationDate }} &nbsp; {{ creationTime }} par {{ event.createdBy }}</p>
           <div class="form-group">
@@ -79,7 +79,8 @@ export default {
     onDelete (index) {
       this.$emit('deleted', index)
     },
-    checkForm () {
+    checkForm (e) {
+      e.preventDefault()
       console.log('event', this.event)
     },
     getEmploye (index) {
