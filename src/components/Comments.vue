@@ -10,8 +10,8 @@
               </svg>
             </div>
             <div class="comment-details">
-                <h5>{{item.author}}</h5>
-                <textarea class="comment-input" ref="comment" v-model="item.content">
+                <input class="comment-input" ref="authorInput" type="text" v-model="item.author" />
+                <textarea class="comment-input" ref="contentInput" v-model="item.content">
                 </textarea>
             </div>
             <div class="actions">
@@ -29,6 +29,11 @@
           </div>
         </li>
       </ul>
+      <div class="add-comment" @click="addComment()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
     </div>
 </template>
 
@@ -36,15 +41,29 @@
 export default {
   name: 'Comment',
   props: ['comments'],
+  data () {
+    return {
+      newComment: {}
+    }
+  },
   methods: {
-    onDelete: function (index) {
+    onDelete (index) {
       // Appel du fonction onDeletedComment (in Parent Component)
       this.$emit('deleted', index)
     },
-    onEdit: function (index) {
+    onEdit (index) {
       // Set Focus au commentaire à modifier
-      this.$refs.comment[index].focus()
+      this.$refs.contentInput[index].focus()
       console.log('edited')
+    },
+    addComment () {
+      this.newComment.author = ''
+      this.newComment.content = ''
+      // Add item to comments
+      this.comments.push(this.newComment)
+      // Set Focus To the last authorInput
+      this.$refs.authorInput[this.comments.length - 1].focus()
+      // Vue.nextTick(function () { this.$refs.authorInput[this.comments.length - 1].focus() })
     }
   }
 }
@@ -170,6 +189,26 @@ export default {
 
 .delete {
   margin-bottom: 5px
+}
+
+.add-comment {
+  margin: 20px auto;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+.add-comment:hover {
+  transform: scale3d(1.1,1.1,1.1);
+}
+
+.add-comment svg {
+  width: 100%;
+  height: 100%;
+  color: #fff;
 }
 
 @media(max-width: 767px) {
