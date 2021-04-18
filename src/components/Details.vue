@@ -198,4 +198,10 @@ export default {
     border: none;
     border-radius: 10px;
   }
+
+  @media(max-width: 767px) {
+    .details-container {
+      padding: 20px;
+    }
+  }
 </style>
