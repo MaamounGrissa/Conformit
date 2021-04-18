@@ -3,7 +3,7 @@
       <div v-if="event">
         <form class="event-details" @submit="checkForm" method="post" >
           <h2 v-text="event.title"></h2>
-          <p>Crée le {{ creationDate }} &nbsp; {{ creationTime }} par {{ event.createdBy }}</p>
+          <p>Crée le {{ myDate }} {{ myTime }} par {{ event.createdBy }}</p>
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" v-model="event.title" name="title" id="title">
@@ -16,11 +16,11 @@
           <div class="datetime-container">
             <div class="form-group date">
               <label for="date">Date</label>
-              <input type="date" class="form-control" v-model="creationDate" name="date" id="date">
+              <input type="date" class="form-control" v-model="myDate" name="date" id="date">
             </div>
             <div class="form-group time">
               <label for="time">Time</label>
-              <input type="time" class="form-control" v-model="creationTime" name="time" id="time">
+              <input type="time" class="form-control" v-model="myTime" name="time" id="time">
             </div>
           </div>
           <div class="form-group">
@@ -64,8 +64,8 @@ export default {
   name: 'Detail',
   data () {
     return {
-      creationDate: null,
-      creationTime: null
+      myDate: null,
+      myTime: null
     }
   },
   created () {
@@ -87,8 +87,12 @@ export default {
       return employees.find(x => x.id === index)
     },
     formatDate () {
-      this.creationTime = moment(String(this.event.creationDate)).format('hh:mm')
-      this.creationDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
+      this.myTime = moment(String(this.event.creationDate)).format('HH:mm')
+      this.myDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
+    },
+    changeDate () {
+      this.event.creationDate = this.myDate + 'T' + this.myTime + 'Z'
+      this.formatDate()
     }
   }
 }

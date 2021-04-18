@@ -49,7 +49,7 @@ export default {
 <style>
 .comments-container {
   height: 100%;
-  padding: 10px;
+  padding: 10px 20px 10px 10px;
   overflow-y: auto;
 }
 
@@ -116,7 +116,7 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 10;
-  right: 0;
+  right: -12px;
   top: 0;
 }
 
@@ -149,6 +149,12 @@ export default {
 
 .delete {
   margin-bottom: 5px
+}
+
+@media(max-width: 767px) {
+  .comments-container {
+    padding: 20px;
+  }
 }
 
 </style>
