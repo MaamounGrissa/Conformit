@@ -10,8 +10,8 @@
               </svg>
             </div>
             <div class="comment-details">
-                <input class="comment-input" ref="authorInput" type="text" v-model="item.author" />
-                <textarea class="comment-input" ref="contentInput" v-model="item.content">
+                <input class="comment-input" ref="authorInput" type="text" v-model="item.author" placeholder="Author" />
+                <textarea class="comment-input" ref="contentInput" v-model="item.content" placeholder="Comment">
                 </textarea>
             </div>
             <div class="actions">

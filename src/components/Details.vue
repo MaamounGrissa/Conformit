@@ -46,7 +46,7 @@
             <label for="temoins">Témoins</label>
             <div class="temoins-container">
               <div v-for="(temoin, index) in event.temoins" :key="index" class="temoin">
-                 <input type="text" class="temoin-input" ref="temoin" v-model="event.temoins[index]" />
+                 <input type="text" class="temoin-input" ref="temoin" v-model="event.temoins[index]" placeholder="Temoin" />
                  <span @click.prevent="onDelete(index)">X</span>
               </div>
               <div class="add-temoin" @click="addTemoin()">
