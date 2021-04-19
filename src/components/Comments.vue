@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     onDelete (index) {
-      // Appel du fonction onDeletedComment (in Parent Component)
+      // Appelle du fonction onDeletedComment (in the Parent Component - Container)
       this.$emit('deleted', index)
     },
     onEdit (index) {

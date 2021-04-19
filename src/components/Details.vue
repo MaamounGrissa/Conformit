@@ -46,8 +46,13 @@
             <label for="temoins">Témoins</label>
             <div class="temoins-container">
               <div v-for="(temoin, index) in event.temoins" :key="index" class="temoin">
-                 {{ temoin }}
-                <span @click.prevent="onDelete(index)">X</span>
+                 <input type="text" class="temoin-input" ref="temoin" v-model="event.temoins[index]" />
+                 <span @click.prevent="onDelete(index)">X</span>
+              </div>
+              <div class="add-temoin" @click="addTemoin()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
             </div>
           </div>
@@ -68,7 +73,8 @@ export default {
     return {
       myDate: null,
       myTime: null,
-      emps: null
+      emps: null,
+      newTemoin: String
     }
   },
   created () {
@@ -87,7 +93,10 @@ export default {
     },
     checkForm (e) {
       // Submit Form
-      console.log('event', this.event)
+      console.log('Connection To API (AXIOS)')
+      console.log('Send Data:')
+      console.log('events', this.events)
+      console.log('Comments')
     },
     getEmploye (index) {
       // l'employé impliqué
@@ -97,6 +106,12 @@ export default {
       // Format Date Function
       this.myTime = moment(String(this.event.creationDate)).format('HH:mm')
       this.myDate = moment(String(this.event.creationDate)).format('YYYY-MM-DD')
+    },
+    addTemoin () {
+      // Add New Temoin
+      this.newTemoin = ''
+      this.event.temoins.push(this.newTemoin)
+      this.$refs.temoin[this.event.temoins.length - 1].focus()
     }
   }
 }
@@ -194,6 +209,39 @@ export default {
     color: #60A5FA;
     font-size: 1rem;
     cursor: pointer;
+  }
+
+  .temoin-input {
+    width: 90px;
+    background: transparent;
+    border: none;
+    resize: none;
+    padding: 1px;
+    height: 25px;
+  }
+
+  .temoin-input:focus {
+    outline: 0 !important;
+    border: 2px dotted #93C5FD !important;
+  }
+
+  .add-temoin {
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+    margin-top: 3px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .add-temoin:hover {
+    transform: scale3d(1.1,1.1,1.1)
+  }
+
+  .add-temoin svg {
+    width: 100%;
+    height: 100%;
+    color: #fff;
   }
 
   .mybtn {
